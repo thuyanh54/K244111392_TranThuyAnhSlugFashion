@@ -1,0 +1,100 @@
+<main class="detail-page" [attr.aria-busy]="isLoading()">
+  <nav class="breadcrumb" aria-label="Đường dẫn trang">
+    <a routerLink="/fashion-list">Bộ sưu tập</a><span aria-hidden="true">/</span
+    ><span>Chi tiết thiết kế</span>
+  </nav>
+  @if (isLoading()) {
+  <div class="state-panel" role="status">
+    <span class="loading-dot"></span> Đang mở câu chuyện của thiết kế…
+  </div>
+  } @else if (fashion(); as item) {
+  <article class="detail-layout">
+    <div class="visual-column">
+      <div class="detail-image">
+        <span class="image-number">ELIAN ARCHIVE / {{ item.IdF }}</span>
+        @if (item.Base64String && !imageFailed()) {
+        <img
+          [src]="item.Base64String"
+          [alt]="item.fashion_subject"
+          (error)="imageFailed.set(true)"
+        />
+        } @else {
+        <div class="detail-placeholder">
+          <span>E.</span>
+          <p>Hình ảnh đang được cập nhật</p>
+        </div>
+        }
+        <span class="image-caption">TIMELESS DESIGN & CRAFTSMANSHIP.</span>
+      </div>
+      <p class="visual-footnote">
+        <span>ELIAN STUDIO</span><span>TIMELESS COLLECTION</span>
+      </p>
+    </div>
+    <div class="detail-copy">
+      <p class="eyebrow">ELIAN ARCHIVE / {{ item.style || 'TIMELESS' }}</p>
+      <h1>{{ item.fashion_subject || 'Thiết kế chưa đặt tên' }}</h1>
+      <div class="detail-divider">
+        <span></span
+        ><span class="edition-label">THIẾT KẾ SỐ {{ item.IdF }}</span>
+      </div>
+      <h2>Câu chuyện thiết kế</h2>
+      <p class="fashion-description">
+        {{ item.fashion_detail || 'Nội dung về thiết kế này đang được cập nhật.'
+        }}
+      </p>
+      <dl class="fashion-meta">
+        <div>
+          <dt>Mã thiết kế · IdF</dt>
+          <dd class="numeric-id">{{ item.IdF }}</dd>
+        </div>
+        <div>
+          <dt>Phong cách</dt>
+          <dd>{{ item.style || 'Tự do' }}</dd>
+        </div>
+        <div class="slug-row">
+          <dt>Đường dẫn · Slug</dt>
+          <dd>
+            <a [routerLink]="['/fashion-detail', item.slug]"
+              >{{ item.slug }} <span aria-hidden="true">↗</span></a
+            >
+          </dd>
+        </div>
+      </dl>
+      <a class="button explore-button" routerLink="/fashion-list"
+        >Khám phá bộ sưu tập <span aria-hidden="true">↗</span></a
+      >
+      <p class="closing-note">
+        Vẻ đẹp thanh lịch bắt đầu từ khoảnh khắc bạn tự tin là chính mình.
+      </p>
+    </div>
+  </article>
+  } @else {
+  <section class="lookup-panel">
+    <p class="eyebrow">ELIAN / TÌM MỘT THIẾT KẾ</p>
+    <h1>Mỗi đường dẫn,<br /><em>một thiết kế vượt thời gian.</em></h1>
+    <p class="lookup-description">
+      Nhập slug của mẫu thời trang để xem hình ảnh và câu chuyện thiết kế.
+    </p>
+    @if (errMessage()) {
+    <p class="error state-panel" role="alert">{{ errMessage() }}</p>
+    }
+    <form (ngSubmit)="searchFashion()">
+      <label for="fashion-slug">Slug thiết kế</label>
+      <div class="lookup-controls">
+        <input
+          id="fashion-slug"
+          name="slug"
+          [(ngModel)]="slug"
+          placeholder="Ví dụ: ao-khoac-nu-1"
+          autocomplete="off"
+          required
+        />
+        <button class="button" type="submit">
+          Mở thiết kế <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </form>
+    <a class="text-link" routerLink="/fashion-list">← Trở về bộ sưu tập</a>
+  </section>
+  }
+</main>

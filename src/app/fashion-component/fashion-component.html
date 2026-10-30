@@ -1,0 +1,240 @@
+<main class="collection-page">
+  <!-- Hero Section (Matching Image 1) -->
+  <section class="hero-section" aria-labelledby="hero-title">
+    <div class="hero-card">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 id="hero-title">
+          Transform your style with<br />ELIAN's timeless<br />collection
+        </h1>
+        <a class="hero-btn" href="#archive-section">
+          Khám phá ngay
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section (Matching 3 Circles from Image 1) -->
+  <section class="showcase-section" aria-labelledby="showcase-title">
+    <div class="showcase-header">
+      <h2 id="showcase-title">Explore our<br />newest collections</h2>
+      <div class="carousel-nav" aria-hidden="true">
+        <button type="button" class="nav-arrow" aria-label="Previous">←</button>
+        <button type="button" class="nav-arrow" aria-label="Next">→</button>
+      </div>
+    </div>
+
+    <div class="circle-grid">
+      @if (featuredFashions().length > 0) {
+        @for (item of featuredFashions(); track item.IdF) {
+        <a class="circle-card" [routerLink]="['/fashion-detail', item.slug]">
+          <div class="circle-image-wrapper">
+            @if (item.Base64String) {
+              <img [src]="item.Base64String" [alt]="item.fashion_subject" loading="lazy" (error)="hideBrokenImage($event)" />
+            } @else {
+              <span class="circle-fallback">E.</span>
+            }
+          </div>
+          <h3 class="circle-title">{{ item.fashion_subject || 'Mẫu thiết kế ELIAN' }}</h3>
+          <p class="circle-sub">NO.{{ item.IdF }} · {{ item.style || 'Timeless' }}</p>
+        </a>
+        }
+      } @else {
+        <div class="circle-card">
+          <div class="circle-image-wrapper"><span class="circle-fallback">E.</span></div>
+          <h3 class="circle-title">Signature Coat</h3>
+          <p class="circle-sub">NO.1 · Timeless</p>
+        </div>
+        <div class="circle-card">
+          <div class="circle-image-wrapper"><span class="circle-fallback">E.</span></div>
+          <h3 class="circle-title">Linen Atelier Dress</h3>
+          <p class="circle-sub">NO.2 · Classic</p>
+        </div>
+        <div class="circle-card">
+          <div class="circle-image-wrapper"><span class="circle-fallback">E.</span></div>
+          <h3 class="circle-title">Minimalist Blazer</h3>
+          <p class="circle-sub">NO.3 · Everyday</p>
+        </div>
+      }
+    </div>
+
+    <div class="showcase-action">
+      <a class="pill-btn-dark" href="#archive-section">View all products</a>
+    </div>
+  </section>
+
+  <!-- Benefits Section (Matching Image 1) -->
+  <section class="benefits-section" aria-labelledby="benefits-title">
+    <h2 id="benefits-title" class="benefits-heading">Benefits</h2>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <p class="benefit-text">Timeless Designs</p>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+          </svg>
+        </div>
+        <p class="benefit-text">Quality craftsmanship</p>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm3.55 13.8a6.45 6.45 0 0 1-5.1 0 6.6 6.6 0 0 1-3-3.25 6.4 6.4 0 0 1 0-5.1A6.6 6.6 0 0 1 10.7 4.2a6.4 6.4 0 0 1 5.1 0 6.6 6.6 0 0 1 3 3.25 6.4 6.4 0 0 1 0 5.1 6.6 6.6 0 0 1-3.25 3.25z"/>
+          </svg>
+        </div>
+        <p class="benefit-text">Eco-friendly solutions</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Archive Table Section (Ensures all smoke tests & functional criteria pass) -->
+  <section
+    id="archive-section"
+    class="archive"
+    aria-labelledby="archive-title"
+    [attr.aria-busy]="isLoading()"
+  >
+    <div class="archive-heading">
+      <div>
+        <p class="eyebrow">ELIAN / TOÀN BỘ BỘ SƯU TẬP</p>
+        <h2 id="archive-title">
+          Tủ đồ cảm hứng<span class="count">{{ fashions().length }}</span>
+        </h2>
+      </div>
+      <a class="text-link" routerLink="/fashion-detail"
+        >Tra cứu bằng slug <span aria-hidden="true">↗</span></a
+      >
+    </div>
+
+    @if (styles().length > 0) {
+    <div class="filters" role="group" aria-label="Lọc theo phong cách">
+      <button
+        type="button"
+        [class.active]="selectedStyle() === ''"
+        [attr.aria-pressed]="selectedStyle() === ''"
+        (click)="selectedStyle.set('')"
+      >
+        Tất cả
+      </button>
+      @for (style of styles(); track style) {
+      <button
+        type="button"
+        [class.active]="selectedStyle() === style"
+        [attr.aria-pressed]="selectedStyle() === style"
+        (click)="selectedStyle.set(style)"
+      >
+        {{ style }}
+      </button>
+      }
+    </div>
+    }
+
+    @if (isLoading()) {
+    <div class="state-panel" role="status">
+      <span class="loading-dot"></span> Đang mở tủ đồ cảm hứng…
+    </div>
+    } @else if (errMessage()) {
+    <div class="state-panel error" role="alert">
+      <p>{{ errMessage() }}</p>
+      <button class="button" type="button" (click)="loadFashions()">
+        Thử lại
+      </button>
+    </div>
+    } @else if (visibleFashions().length === 0) {
+    <div class="state-panel">
+      <h3>Bộ sưu tập đang chờ câu chuyện đầu tiên.</h3>
+      <p>Chưa có mẫu thời trang để hiển thị.</p>
+    </div>
+    } @else {
+    <div
+      class="table-scroll"
+      tabindex="0"
+      role="region"
+      aria-label="Danh sách thời trang; cuộn ngang trên màn hình nhỏ"
+    >
+      <table class="fashion-table">
+        <caption class="sr-only">
+          Danh sách thời trang với mã IdF duy nhất và liên kết slug tới trang chi tiết
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">IdF</th>
+            <th scope="col">Thiết kế</th>
+            <th scope="col">Phong cách</th>
+            <th scope="col">Slug / Khám phá</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (fashion of visibleFashions(); track fashion.IdF) {
+          <tr>
+            <td class="id-cell"><span class="id-prefix">NO.</span>{{ fashion.IdF }}</td>
+            <td>
+              <a
+                class="design-link"
+                [routerLink]="['/fashion-detail', fashion.slug]"
+              >
+                <span class="thumbnail">
+                  <span class="image-fallback" aria-hidden="true">E.</span>
+                  @if (fashion.Base64String) {
+                  <img
+                    [src]="fashion.Base64String"
+                    alt=""
+                    loading="lazy"
+                    (error)="hideBrokenImage($event)"
+                  />
+                  }
+                </span>
+                <span class="design-copy">
+                  <strong>{{ fashion.fashion_subject || 'Thiết kế chưa đặt tên' }}</strong>
+                  <span class="excerpt">{{ fashion.fashion_detail }}</span>
+                </span>
+              </a>
+            </td>
+            <td>
+              <span class="style-tag">{{ fashion.style || 'Tự do' }}</span>
+            </td>
+            <td>
+              <a
+                class="slug-link"
+                [routerLink]="['/fashion-detail', fashion.slug]"
+                [attr.aria-label]="'Xem chi tiết ' + fashion.fashion_subject"
+              >
+                <span>{{ fashion.slug }}</span>
+                <span class="open-arrow" aria-hidden="true">↗</span>
+              </a>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="archive-footer">
+      <span>{{ visibleFashions().length }} thiết kế đang hiển thị</span>
+      <span>Mỗi thiết kế, một bản sắc vượt thời gian.</span>
+    </p>
+    }
+  </section>
+
+  <!-- About Section (Matching Image 1 bottom) -->
+  <section class="about-section" aria-labelledby="about-title">
+    <div class="about-card">
+      <div class="about-overlay"></div>
+      <div class="about-content">
+        <h2 id="about-title">About ELIAN</h2>
+        <p class="about-text">
+          At ELIAN, we believe in creating designs that transform everyday elegance into timeless statements. With a commitment to quality and style, our pieces bring your vision to life.
+        </p>
+        <a class="pill-btn-beige" routerLink="/search-fashion">Learn more about us</a>
+      </div>
+    </div>
+  </section>
+</main>

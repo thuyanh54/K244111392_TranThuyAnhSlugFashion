@@ -1,0 +1,23 @@
+{
+  "name": "my-sever-mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Tran Thuy Anh",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test",
+    "dev": "nodemon --watch index.js --watch fashion-metadata.js --ext js index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "mongodb": "^7.7.0",
+    "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
